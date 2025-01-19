@@ -1,0 +1,10 @@
+body{
+    background-color: burlywood;
+    font-family: Georgia, 'Times New Roman', Times, serif
+}
+#main{
+    width: 50%;
+    background-color: bisque;
+    margin: auto;
+    padding: 1%;
+}
