@@ -8,3 +8,7 @@ body{
     margin: auto;
     padding: 1%;
 }
+#welcome{
+    color: navy;
+    font-size: 1.5em;
+}
