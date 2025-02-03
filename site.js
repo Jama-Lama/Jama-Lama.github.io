@@ -16,3 +16,7 @@ welcome.textContent = 'Good Evening!'
 } else{
     //An error has occured!
 }
+
+localStorage.setItem("It's a secret to everybody.", "So it's not secret at all?")
+//I don't know what this references, what the string is is my current guess, I'm looking it up now
+//oh it's from the Legend of Zelda, I know those games well but have barely played them
