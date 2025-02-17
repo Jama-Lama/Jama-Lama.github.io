@@ -39,23 +39,32 @@ const showImages = () => {
 showImages()
 
 
-manuallyChanged = false //were the imgs in the carousel manually changed recently (with the btns)
+cycles = 0
 
 /*
-currently this solution works by having the interval do a full interval before continuing
-when the prev/next buttons are pushed
-to prevent the situation where the interval changes the image very shortly after a button was pressed
-this effectively means that there will be at least 5 seconds of time after a button is pressed before the interval fires
-but, this also effectively means there could be up to 9.9999999... seconds before the interval fires
+This solution is the way it is to avoid the interval and the prev/next buttons interfering with eachother
+
+initially, the interval could change the imgs right after a button was used - which is a problem
+so next it was that using a button made the interval do nothing for its next cycle
+so there would be at least 1 full interval's worth of time (5+ seconds) before the imgs cycled
+but, this meant there could be nearly 2 full interval's worth of time (10 seconds) before the imgs cycled - which is a problem
+
+so the new solution calls for the interval being 0.5 seconds long
+and needing to increment a counter 10 times before it can adjust the imgs
+the buttons then just reset the counter
+
+so, instead of 0-5 or 5-10 seconds of wait before the interval changes the imgs, it's 5-5.5
 */
 
 function moveImgs(num){
     if (num === undefined){
-        if (manuallyChanged){
-            manuallyChanged = false
+        if (cycles < 10){
             num = 0
-        } else{
+            cycles++
+        }
+        if (cycles == 10){
             num = 1
+            cycles = 0
         }
     }
     currentImage += num
@@ -64,18 +73,18 @@ function moveImgs(num){
 
 const btnNext = document.querySelector('#next')
 btnNext.addEventListener('click', ()=>{
-    manuallyChanged = true
+    cycles = 0
     moveImgs(1)})
 
 const btnPrev = document.querySelector('#prev')
 btnPrev.addEventListener('click', ()=>{
-    manuallyChanged = true
+    cycles = 0
     moveImgs(-1)})
 
 setInterval(()=>{
     moveImgs()
     showImages()
-}, 5000)
+}, 500)
 
 
 localStorage.setItem("It's a secret to everybody.", "So it's not secret at all?")
