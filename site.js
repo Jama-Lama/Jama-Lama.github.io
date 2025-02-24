@@ -90,3 +90,65 @@ setInterval(()=>{
 localStorage.setItem("It's a secret to everybody.", "So it's not secret at all?")
 //I don't know what this references, what the string is is my current guess, I'm looking it up now
 //oh it's from the Legend of Zelda, I know those games well but have barely played them
+
+//-------------------------------------------
+
+// Get the list from local storage
+let todos = JSON.parse(localStorage.getItem('todo-list')) || [
+    { "text": "Learn how to walk on water", "completed": false },
+    { "text": "Become the King of England", "completed": false },
+    { "text": "Wear a silly hat", "completed": false }
+]
+
+const todoList = document.querySelector('.todo-list')
+
+//on load
+//  render
+
+renderToDoList()
+
+//on new item added
+//  save
+//  render
+
+const newToDo = document.querySelector('#new-todo')
+const btnAddToDo = document.querySelector('#btnAddToDo')
+btnAddToDo.addEventListener('click', ()=>{
+    // Add a new item to the list
+    todos.push({ text: newToDo.value, completed: false })
+    // Save the list to local storage
+    localStorage.setItem('todo-list', JSON.stringify(todos))
+    renderToDoList()
+    })
+
+//def of redner
+//  forEach
+
+function renderToDoList(){
+    // Clear the li's before we recreate them
+    todoList.innerHTML = ''
+
+    // Create and add new list items to the DOM
+    todos.forEach((todo)=>{
+        const li = document.createElement('li')
+        li.textContent = todo.text
+        todoList.append(li)
+    })
+}
+
+/*
+//Provided Code
+// Add a new item to the list
+todos.push({ text: input.value, completed: false })
+
+// Save the list to local storage
+localStorage.setItem('todo-list', JSON.stringify(todos))
+
+// Clear the li's before we recreate them
+todoList.innerHTML = ''
+
+// Create and add new list items to the DOM
+const li = document.createElement('li')
+li.textContent = todo.text
+todoList.append(li)
+*/
