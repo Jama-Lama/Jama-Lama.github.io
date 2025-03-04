@@ -2,34 +2,30 @@
     console.log('Connected to JavaScript file.')
 
     // --- Start of Pokemon Portion ---
+    try {
+        
+        let getRandomPokemon = () => {
+            return ('https://pokeapi.co/api/v2/pokemon/' + Math.floor(Math.random() * 150))
+        }
+
+        let renderPokemon = (pkmnData) => {
+            pkmnDiv = document.querySelector('#pokemon-div')
     
-    const https = require('https')
+            const pkmnImg = document.createElement('img')
+            pkmnImg.src = pkmnData.sprites.front_default
+            pkmnImg.alt = pkmnData.name
+            pkmnDiv.append(pkmnImg)
+        }
+
+        const url = getRandomPokemon();
+        const response = await fetch(url)
+        const pkmnJson = await response.json()
     
-    const getRandomPokemon = async url => {
-        return new Promise(resolve => {
-            https.get(url, response => {
-                let body = ''
-                response.on('data', data => body += data.toString())
-                response.on('end', () => resolve(JSON.parse(body)))
-            })
-        })
+        renderPokemon(pkmnJson);
+
+    } catch (error) {
+        console.log(error)
     }
-
-    const url = 'https://pokeapi.co/api/v2/pokemon/' + Math.floor(Math.random() * 150)
-
-    const pkmnJson = await getRandomPokemon(url)
-
-    renderPokemon = pkmnJson => {
-        pkmnDiv = document.querySelector('#pokemon-div')
-
-        const pkmnImg = document.createElement('img')
-        pkmnImg.src = pkmnJson.sprites.front_default
-        pkmnImg.alt = pkmnJson.name
-        pkmnDiv.append(pkmnImg)
-    }
-
-    renderPokemon(pkmnJson)
-    
     // --- End of Pokemon Portion ---
     
     const hours = new Date().getHours() // get the current hour
